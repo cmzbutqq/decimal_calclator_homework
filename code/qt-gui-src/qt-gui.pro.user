@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.1, 2024-01-17T20:52:05. -->
+<!-- Written by QtCreator 4.11.1, 2024-01-19T23:31:15. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -287,9 +287,8 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt-gui2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:E:/FILE/PROJECTS/VSCODE/PrivateCodespace/CPP/SCUTOJ/陈梦泽_202330842331_金科班_实验报告及源代码文件_上学期/陈梦泽_202330842331_金科班_源代码/qt-gui/qt-gui.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/FILE/PROJECTS/VSCODE/PrivateCodespace/CPP/SCUTOJ/陈梦泽_202330842331_金科班_实验报告及源代码文件_上学期/陈梦泽_202330842331_金科班_源代码/qt-gui/qt-gui.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:E:/FILE/PROJECTS/VSCODE/decimal_calclator_scut/code/qt-gui-src/qt-gui.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/FILE/PROJECTS/VSCODE/decimal_calclator_scut/code/qt-gui-src/qt-gui.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>
