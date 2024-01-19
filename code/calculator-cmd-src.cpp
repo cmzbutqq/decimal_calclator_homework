@@ -469,18 +469,8 @@ pair<Decimal, bool> Decimal::operator/(Decimal &other)
     Decimal res;
 
     // detect if other<10e-(div_eps)
-    bool after_decimal = false;
-    int zeros_after_decimal = 0;
-    for (auto detector = other.digits.begin(); detector != other.digits.end(); ++detector)
-    {
-        if (*detector != 0)
-            break;
-        if (after_decimal)
-            ++zeros_after_decimal;
-        if (detector == other.ones_place)
-            after_decimal = true;
-    }
-    if (zeros_after_decimal >= div_eps)
+    Decimal eps(-div_eps);
+    if ((!(other - eps).positive) && (other + eps).positive)
         return make_pair(move(res), true);
 
     // 左右两数转换为正整数

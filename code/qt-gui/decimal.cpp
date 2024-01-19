@@ -1,6 +1,5 @@
 #include "decimal.h"
 
-
 list<uint8_t>::iterator step_back(list<uint8_t>::iterator it)
 {
     // 输入一个迭代器，返回它的上一个迭代器
@@ -9,46 +8,46 @@ list<uint8_t>::iterator step_back(list<uint8_t>::iterator it)
     list<uint8_t>::iterator res = it;
     return --res;
 };
-//int main()
+// int main()
 //{
-//    string temp, op, input1, input2;
-//    size_t n;
-//    while (cin >> n)
-//    {
-//        getline(cin, temp);
-//        for (size_t i = 0; i < n; ++i)
-//        {
-//            getline(cin, op);
-//            getline(cin, input1);
-//            getline(cin, input2);
-//            Decimal a(input1), b(input2);
-//            switch (op[0])
-//            {
-//            case '+':
-//                (a + b).print();
-//                break;
-//            case '-':
-//                (a - b).print();
-//                break;
-//            case '*':
-//                (a * b).print();
-//                break;
-//            case '/':
-//            {
-//                pair<Decimal, bool> div = a / b;
-//                if (div.second) // 除数<1e-6
-//                    cout << "ERROR" << endl;
-//                else // 正常情况
-//                    div.first.print();
-//                break;
-//            }
-//            default:
-//                throw("unknown operator");
-//            }
-//        }
-//    }
-//    return 0;
-//}
+//     string temp, op, input1, input2;
+//     size_t n;
+//     while (cin >> n)
+//     {
+//         getline(cin, temp);
+//         for (size_t i = 0; i < n; ++i)
+//         {
+//             getline(cin, op);
+//             getline(cin, input1);
+//             getline(cin, input2);
+//             Decimal a(input1), b(input2);
+//             switch (op[0])
+//             {
+//             case '+':
+//                 (a + b).print();
+//                 break;
+//             case '-':
+//                 (a - b).print();
+//                 break;
+//             case '*':
+//                 (a * b).print();
+//                 break;
+//             case '/':
+//             {
+//                 pair<Decimal, bool> div = a / b;
+//                 if (div.second) // 除数<1e-6
+//                     cout << "ERROR" << endl;
+//                 else // 正常情况
+//                     div.first.print();
+//                 break;
+//             }
+//             default:
+//                 throw("unknown operator");
+//             }
+//         }
+//     }
+//     return 0;
+// }
 
 tuple<string, size_t, bool> analyze(string _instr)
 {
@@ -431,18 +430,8 @@ pair<Decimal, bool> Decimal::operator/(Decimal &other)
     Decimal res;
 
     // detect if other<10e-(div_eps)
-    bool after_decimal = false;
-    int zeros_after_decimal = 0;
-    for (auto detector = other.digits.begin(); detector != other.digits.end(); ++detector)
-    {
-        if (*detector != 0)
-            break;
-        if (after_decimal)
-            ++zeros_after_decimal;
-        if (detector == other.ones_place)
-            after_decimal = true;
-    }
-    if (zeros_after_decimal >= div_eps)
+    Decimal eps(-div_eps);
+    if ((!(other - eps).positive) && (other + eps).positive)
         return make_pair(move(res), true);
 
     // 左右两数转换为正整数
@@ -536,4 +525,3 @@ void Decimal::copy(Decimal &other)
     for (auto _it = other.digits.begin(); _it != other.ones_place; ++_it)
         ++ones_place;
 }
-
