@@ -1,14 +1,12 @@
 #ifndef DECIMAL_H
 #define DECIMAL_H
 
-
-
 #include <iostream>
 #include <list>  //链表
 #include <tuple> //数据打包
 #include <string>
-const int div_precision = 10; // 精确到小数点后div_precision位
-const int div_eps = 6;        // 除数小于1e-(div_eps)时报错
+const int PRECISION = 10; // 精确到小数点后div_precision位
+const int div_eps = 6;    // 除数小于1e-(div_eps)时报错
 using namespace std;
 
 list<uint8_t>::iterator step_back(list<uint8_t>::iterator it);
@@ -44,7 +42,5 @@ struct Decimal
     pair<Decimal, bool> operator/(Decimal &other);
     void copy(Decimal &other); // 只接受左值 右值(比如表达式)不行
 };
-
-
 
 #endif // DECIMAL_H

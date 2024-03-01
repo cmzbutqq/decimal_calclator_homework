@@ -2,27 +2,40 @@
 #include <list>  //链表
 #include <tuple> //数据打包
 #include <string>
-const int div_precision = 10; // 精确到小数点后div_precision位
-const int div_eps = 6;        // 除数小于1e-(div_eps)时报错
+const int PRECISION = 10; // 精确到小数点后PRECISION位
+const int EPS = 6;        // 除数小于1e-(EPS)时报错
 using namespace std;
 
+/*
+题目描述：
+设计一个程序实现两个任意长的数（包括正数和负数）、任意精度实数的加减乘除运算，其中以“-”号开头的为负数。
+*/
+
+/**
+ * @brief
+ *  输入一个迭代器，返回它的上一个迭代器,
+ *  由于反向迭代器与正向迭代器无法互相比较，因此有了这个函数,
+ *  反向迭代器的.base()方法会产生偏移，所以也不行
+ * @param  一个迭代器
+ * @return 它的上一个迭代器
+ */
 list<uint8_t>::iterator step_back(list<uint8_t>::iterator it)
 {
-    // 输入一个迭代器，返回它的上一个迭代器
-    // 由于反向迭代器与正向迭代器无法互相比较，因此有了这个函数
-    // 反向迭代器的.base()方法会产生偏移，所以也不行
     list<uint8_t>::iterator res = it;
     return --res;
 };
 tuple<string, size_t, bool> analyze(string _instr);
 
+/**
+ * @brief
+ *  eg:
+ *  代表的数字：-123.456;
+ *  positive:  false;
+ *  digits:    123 456;
+ *  ones_place:  ↑;
+ */
 struct Decimal
 {
-    // eg:
-    // 代表的数字：-123.456
-    // positive:  false
-    // digits:    123 456
-    // ones_place:  ↑
     bool positive;
     list<uint8_t> digits;
     list<uint8_t>::iterator ones_place;
@@ -87,12 +100,19 @@ int main()
     }
     return 0;
 }
-
+/**
+ * @brief 
+ * 分析输入的行内容,
+ * 返回打包的元组：
+ * <剥离无关元素后的字符串（只剩下数字），个位所在索引，是否为正数>
+ * @param _in_string
+ * @return tuple<content, ones_index, on_positive> 
+ */
 tuple<string, size_t, bool> analyze(string _instr)
 {
-    // 分析输入的行内容
-    // 返回打包的元组：
-    // <剥离无关元素后的字符串（只剩下数字），个位所在索引，是否为正数>
+    // 
+    // 
+    // 
     string content = "";
     size_t ones_index;
     bool flag_int = true, positive = true;
@@ -132,9 +152,13 @@ tuple<string, size_t, bool> analyze(string _instr)
         return make_tuple(content, ones_index, positive);
     }
 }
-
+/**
+ * @brief 
+ * 用元组初始化Decimal对象
+ * @param _intuple 
+ */
 void Decimal::input(tuple<string, size_t, bool> _intuple)
-{ // 用元组初始化Decimal对象
+{
     digits.clear();
     // 设置符号位
     positive = get<2>(_intuple);
@@ -153,9 +177,13 @@ void Decimal::input(tuple<string, size_t, bool> _intuple)
     // 删除多余的数字位
     cut_down();
 }
-
+/**
+ * @brief 
+ * 初始化为10^n
+ * @param _index n
+ */
 void Decimal::input_pow10(int _index)
-{ // 初始化为10^n
+{
     // eg n=0
     //->   1
     // eg n=-5
@@ -208,10 +236,13 @@ string Decimal::print()
     cout << out << endl;
     return out; // qt版使用
 }
-
+/**
+ * @brief 
+ * 删除开头除个位外的所有零,
+ * 删除末尾小数点后的所有零
+ */
 void Decimal::cut_down()
-{ // 删除开头除个位外的所有零
-    // 删除末尾小数点后的所有零
+{ 
     // eg:    -001234.5600
     // ->     -  1234.56
     //         0000.00560000
@@ -242,10 +273,14 @@ void Decimal::cut_down()
             break;
     }
 }
-
+/**
+ * @brief 
+ * 自动在 *this,other 的头尾补充0,
+ * 使得 *this,other 位数相等且对齐
+ * @param other 
+ */
 void Decimal::align(Decimal &other)
-{ // 自动在 *this,other 的头尾补充0
-    // 使得 *this,other 位数相等且对齐
+{ 
     // eg:  001234.56
     //           0.123456000
     // ->   001234.560000000
@@ -271,17 +306,26 @@ void Decimal::align(Decimal &other)
             other.digits.push_back(0);
     }
 }
-
+/**
+ * @brief 
+ * 返回相反数，注意返回的是右值对象
+ * @return Decimal 
+ */
 Decimal Decimal::get_opposite()
-{ // 返回相反数，注意返回的是右值对象
+{ // 
     Decimal result;
     result.copy(*this);
     result.positive = !result.positive;
     return result;
 }
-
+/**
+ * @brief 
+ * 左值+左值，输出右值
+ * @param other 
+ * @return Decimal 
+ */
 Decimal Decimal::operator+(Decimal &other)
-{ // 左值+左值，输出右值
+{
     Decimal res;
     align(other);
     align(res);
@@ -335,9 +379,14 @@ Decimal Decimal::operator+(Decimal &other)
     // 返回
     return res;
 }
-
+/**
+ * @brief 
+ * 左值-左值，输出右值
+ * @param other 
+ * @return Decimal 
+ */
 Decimal Decimal::operator-(Decimal &other)
-{ // 左值-左值，输出右值
+{
     Decimal res;
     align(other);
     align(res);
@@ -406,9 +455,14 @@ Decimal Decimal::operator-(Decimal &other)
     // 返回
     return res;
 }
-
+/**
+ * @brief 
+ * 左值*左值，输出右值
+ * @param other 
+ * @return Decimal 
+ */
 Decimal Decimal::operator*(Decimal &other)
-{ // 左值*左值，输出右值
+{
     Decimal res;
     align(other);
     align(res);
@@ -462,14 +516,18 @@ Decimal Decimal::operator*(Decimal &other)
     // 返回
     return res;
 }
-
+/**
+ * @brief 
+ * 左值/左值，输出右值
+ * @param other 
+ * @return pair<value,if_infinite>
+ */
 pair<Decimal, bool> Decimal::operator/(Decimal &other)
-{ // pair<value,if_infinite>
-    // 左值/左值，输出右值
+{
     Decimal res;
 
-    // detect if other<10e-(div_eps)
-    Decimal eps(-div_eps);
+    // detect if other<10e-(EPS)
+    Decimal eps(-EPS);
     if ((!(other - eps).positive) && (other + eps).positive)
         return make_pair(move(res), true);
 
@@ -497,7 +555,7 @@ pair<Decimal, bool> Decimal::operator/(Decimal &other)
     int index = left.digits.size() - 1;
     list<uint8_t>::iterator write = res.digits.begin();
 
-    for (; index >= -(div_precision + 1); --index, ++write)
+    for (; index >= -(PRECISION + 1); --index, ++write)
     { // 遍历res的每一位
         Decimal weight(index);
         Decimal minus;
@@ -542,14 +600,16 @@ pair<Decimal, bool> Decimal::operator/(Decimal &other)
     // 返回
     return make_pair(move(res), false);
 }
-
+/**
+ * @brief 
+ *  只接受左值变量，
+ *  复制该Decimal变量并重新生成ones_place。
+ *  要捕获右值Decimal变量 请使用以下做法：
+ *  Decimal dec; dec=move(Decimal &&_in); // move() 不一定要加 不过为了可读性还是加上
+ * @param other 
+ */
 void Decimal::copy(Decimal &other)
 {
-    // 只接受左值变量
-    // 复制该Decimal变量并重新生成ones_place
-    // 要复制右值Decimal变量 请使用以下做法：
-    //  Decimal dec;dec=move(Decimal &&_in); // move() 没必要加 不过为了可读性还是加上了
-
     positive = other.positive;
     digits.clear();
 

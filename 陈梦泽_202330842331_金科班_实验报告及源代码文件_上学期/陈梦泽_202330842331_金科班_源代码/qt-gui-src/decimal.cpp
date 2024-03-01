@@ -458,7 +458,7 @@ pair<Decimal, bool> Decimal::operator/(Decimal &other)
     int index = left.digits.size() - 1;
     list<uint8_t>::iterator write = res.digits.begin();
 
-    for (; index >= -(div_precision + 1); --index, ++write)
+    for (; index >= -(PRECISION + 1); --index, ++write)
     { // 遍历res的每一位
         Decimal weight(index);
         Decimal minus;
